@@ -87,5 +87,6 @@ def upload_to_onedrive(access_token, folder_path):
                     traceback.print_exc()
                     print("Error Uploading {file_name}")
 
-            # Error creating upload session
-            print(response.json())
+            else:
+                # Error creating upload session
+                print(response.json())
