@@ -29,7 +29,7 @@ def upload_to_onedrive(access_token, folder_path):
                 # Perform is simple upload to the API
                 normal_url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{root}/{file_name}:/content"
                 with open(f'{file_path}', 'rb') as f:
-                    r = requests.put(normal_url, data=f, headers=headers)
+                    requests.put(normal_url, data=f, headers=headers)
                 continue
 
             # file size more than 4.1MB, so create upload session and get upload url
