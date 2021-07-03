@@ -15,7 +15,7 @@ import traceback
 from datetime import datetime
 
 
-def upload_to_onedrive(access_token, folder_path, remote_folder='main'):
+def upload_to_onedrive(access_token, folder_path, remote_folder='Default Uploads'):
     token = access_token
     headers = {'Authorization': f'Bearer {token}'}
 
@@ -46,7 +46,7 @@ def upload_to_onedrive(access_token, folder_path, remote_folder='main'):
 
             if response.status_code == requests.codes.ok:
                 upload_url = response.json()['uploadUrl']
-                print(f'Uploading: {file_name} to {upload_url}')
+                print(f'Uploading: {file_name}.')
 
                 try:
                     # IMPORTANT! Reduce chunk size if memory capacity is limited.
