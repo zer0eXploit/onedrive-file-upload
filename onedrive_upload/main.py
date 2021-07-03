@@ -15,7 +15,7 @@ import traceback
 from datetime import datetime
 
 
-def upload_to_onedrive(access_token, folder_path, remote_folder='Default Uploads'):
+def upload_to_onedrive(access_token, folder_path):
     token = access_token
     headers = {'Authorization': f'Bearer {token}'}
 
@@ -27,14 +27,14 @@ def upload_to_onedrive(access_token, folder_path, remote_folder='Default Uploads
 
             if file_size < 4100000:
                 # Perform is simple upload to the API
-                simple_upload_url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{remote_folder}/{file_name}:/content"
+                simple_upload_url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{root}/{file_name}:/content"
                 with open(f'{file_path}', 'rb') as f:
                     r = requests.put(simple_upload_url,
                                      data=f, headers=headers)
                 continue
 
             # file size more than 4.1MB, so create upload session and get upload url
-            url = f'https://graph.microsoft.com/v1.0/me/drive/root:/{remote_folder}/{file_name}:/createUploadSession'
+            url = f'https://graph.microsoft.com/v1.0/me/drive/root:/{root}/{file_name}:/createUploadSession'
             payload = {
                 "item": {
                     "@odata.type": "microsoft.graph.driveItemUploadableProperties",
