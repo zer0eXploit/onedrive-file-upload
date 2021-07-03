@@ -16,8 +16,7 @@ from datetime import datetime
 
 
 def upload_to_onedrive(access_token, folder_path):
-    token = access_token
-    headers = {'Authorization': f'Bearer {token}'}
+    headers = {'Authorization': f'Bearer {access_token}'}
 
     # Access files in the folder and sub folders
     for root, _dirs, files in os.walk(folder_path):
@@ -87,5 +86,9 @@ def upload_to_onedrive(access_token, folder_path):
                     print("Error Uploading {file_name}")
 
             else:
-                # Error creating upload session
-                print(response.json())
+                if response.status_code == 401:
+                    # token expired or invalid
+                    access_token = input('Please enter new token.')
+                else:
+                    # Error creating upload session
+                    print(response.json())
