@@ -16,7 +16,10 @@ from datetime import datetime
 
 
 def upload_to_onedrive(access_token, folder_path):
-    headers = {'Authorization': f'Bearer {access_token}'}
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
 
     # Access files in the folder and sub folders
     for root, _dirs, files in os.walk(folder_path):
