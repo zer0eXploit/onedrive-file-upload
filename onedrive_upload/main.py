@@ -48,7 +48,7 @@ def upload_to_onedrive(access_token, folder_path):
 
                 try:
                     # IMPORTANT! Reduce chunk size if memory capacity is limited.
-                    chunk_size = 32768000  # 32.768 mega bytes
+                    chunk_size = 62914560  # 60 mebibytes.
                     total_chunks = file_size//chunk_size  # total chunks, get the floor
                     chunk_leftover = file_size - chunk_size * total_chunks
 
