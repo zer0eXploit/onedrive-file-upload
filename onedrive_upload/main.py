@@ -44,7 +44,7 @@ def upload_to_onedrive(access_token, folder_path):
 
             if response.status_code == requests.codes.ok:
                 upload_url = response.json()['uploadUrl']
-                print(f'Uploading: {file_name}.')
+                print(f'Uploading: {file_name} - {file_size//1048576} MB.')
 
                 try:
                     # IMPORTANT! Reduce chunk size if memory capacity is limited.
