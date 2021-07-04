@@ -39,7 +39,7 @@ def upload_to_onedrive(access_token, folder_path):
             payload = {
                 "item": {
                     "@odata.type": "microsoft.graph.driveItemUploadableProperties",
-                    "@microsoft.graph.conflictBehavior": "fail",
+                    "@microsoft.graph.conflictBehavior": "rename",
                     "name": f"{file_name}"
                 }
             }
