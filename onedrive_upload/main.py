@@ -31,8 +31,9 @@ def upload_to_onedrive(access_token, folder_path):
                 # Perform is simple upload to the API
                 normal_url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{root}/{file_name}:/content"
                 with open(f'{file_path}', 'rb') as f:
-                    requests.put(normal_url, data=f, headers=headers)
-                continue
+                    simp_ul = requests.put(normal_url, data=f, headers=headers)
+                    if simp_ul.status_code == requests.codes.ok:
+                        continue
 
             # file size more than 4.1MB, so create upload session and get upload url
             url = f'https://graph.microsoft.com/v1.0/me/drive/root:/{root}/{file_name}:/createUploadSession'
@@ -43,7 +44,18 @@ def upload_to_onedrive(access_token, folder_path):
                     "name": f"{file_name}"
                 }
             }
+
+            # Check for access token validity by requesting upload url
             response = requests.post(url, headers=headers, params=payload)
+
+            while response.status_code == 401:
+                print("Invalid or expired access token. Please enter the new token.")
+                access_token = input()
+                headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {access_token}'
+                }
+                response = requests.post(url, headers=headers, params=payload)
 
             if response.status_code == requests.codes.ok:
                 upload_url = response.json()['uploadUrl']
@@ -89,9 +101,5 @@ def upload_to_onedrive(access_token, folder_path):
                     print("Error Uploading {file_name}")
 
             else:
-                if response.status_code == 401:
-                    # token expired or invalid
-                    access_token = input('Please enter new token.')
-                else:
-                    # Error creating upload session
-                    print(response.json())
+                # Error creating upload session
+                print(response.json())
